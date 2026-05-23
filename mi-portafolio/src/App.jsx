@@ -110,15 +110,10 @@ export default function Portfolio() {
     setInput("");
     setLoading(true);
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT,
-          messages: next,
-        }),
+        body: JSON.stringify({ messages: next, system: SYSTEM_PROMPT }),
       });
       const data = await res.json();
       const reply = data.content?.[0]?.text ?? "Error al conectar.";
@@ -529,7 +524,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* AI CHAT */}
+      {/* CHAT */}
       <section id="chat" style={{ ...S.section, borderTop: "1px solid #111118" }}>
         <p style={S.sectionLabel}>IA · chat en vivo</p>
         <h2 style={S.sectionTitle}>Habla con Juan David</h2>
@@ -575,7 +570,6 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Suggested questions */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
           {[
             "¿Cuándo puedes empezar?",
@@ -603,15 +597,16 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* FOOTER */}
+
       <footer style={S.footer}>
         <p style={{ marginBottom: 8, color: "#2a2a38" }}>
           Juan David Higuita · Medellín, Colombia
         </p>
         <p>
-          <a href="mailto:tu@correo.com" style={{ color: "#2dd4bf", marginRight: 20 }}>correo</a>
-          <a href="https://github.com/" target="_blank" rel="noreferrer" style={{ color: "#2dd4bf", marginRight: 20 }}>github</a>
-          <a href="https://linkedin.com/in/" target="_blank" rel="noreferrer" style={{ color: "#2dd4bf" }}>linkedin</a>
+          <a href="mailto:juandahiguitaa@hotmail.com" style={{ color: "#2dd4bf", marginRight: 20 }}>correo</a>
+          <a href="https://github.com/JDHiguitaaa" target="_blank" rel="noreferrer" style={{ color: "#2dd4bf", marginRight: 20 }}>github</a>
+          <a href="https://linkedin.com/in/higuitaaa" target="_blank" rel="noreferrer" style={{ color: "#2dd4bf", marginRight: 20 }}>linkedin</a>
+          <a href="https://wa.me/573146919190" target="_blank" rel="noreferrer" style={{ color: "#25D366", marginRight: 0 }}>whatsapp</a>
         </p>
       </footer>
     </div>
