@@ -103,7 +103,7 @@ export default function Portfolio() {
   }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim() || loading || userCount >= 4) return;
+    if (!input.trim() || loading || userCount >= 3) return;
     const userMsg = { role: "user", content: input.trim() };
     const next = [...messages, userMsg];
     setMessages(next);
@@ -119,7 +119,7 @@ export default function Portfolio() {
       const reply = data.content?.[0]?.text || data.error || "Error al conectar.";
       const botMsg = { role: "assistant", content: reply };
       const newUserCount = next.filter(m => m.role === "user").length;
-      if (newUserCount >= 4) {
+      if (newUserCount >= 3) {
         setMessages([...next, botMsg, {
           role: "assistant",
           content: "¿Quieres saber más sobre mi perfil o discutir una oportunidad? ¡Escríbeme directamente! 👇",
@@ -388,7 +388,7 @@ export default function Portfolio() {
             <span style={{ fontSize: 12, color: "#5a5a6a", marginLeft: 8 }}>juan-david-higuita · online</span>
             {userCount > 0 && (
               <span style={{ marginLeft: "auto", fontSize: 11, color: "#3a3a50" }}>
-                {4 - userCount > 0 ? `${4 - userCount} preguntas restantes` : "límite alcanzado"}
+                {4 - userCount > 0 ? `${3 - userCount} preguntas restantes` : "límite alcanzado"}
               </span>
             )}
           </div>
@@ -407,7 +407,7 @@ export default function Portfolio() {
             <div ref={chatEndRef} />
           </div>
 
-          {userCount >= 4 ? (
+          {userCount >= 3 ? (
             <div style={{ padding: "20px", textAlign: "center", borderTop: "1px solid #1d1d2e" }}>
               <a
                 href="https://wa.me/573146919190"
@@ -439,7 +439,7 @@ export default function Portfolio() {
           )}
         </div>
 
-        {userCount < 4 && (
+        {userCount < 3 && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
             {["¿Cuándo puedes empezar?", "Cuéntame sobre Alzalert", "¿Por qué pasaste a desarrollo?", "What's your English level?"].map((q) => (
               <button key={q}
