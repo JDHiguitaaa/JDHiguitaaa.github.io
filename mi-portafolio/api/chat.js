@@ -9,7 +9,6 @@ export default async function handler(req, res) {
   try {
     const { messages, system } = req.body;
 
-    // La API de Anthropic requiere que el primer mensaje sea del usuario
     const firstUserIdx = messages.findIndex(m => m.role === 'user');
     const cleanMessages = firstUserIdx >= 0 ? messages.slice(firstUserIdx) : messages;
 
