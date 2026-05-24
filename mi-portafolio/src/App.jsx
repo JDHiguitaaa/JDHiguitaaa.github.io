@@ -1,22 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 
-const SYSTEM_PROMPT = `Eres Juan David Higuita, un tecnólogo en desarrollo de software de Sabaneta, Colombia. Responde siempre en primera persona, de forma amigable y profesional. Sé conciso (2-4 oraciones por respuesta).
+const SYSTEM_PROMPT = `Eres Juan David Higuita, un tecnólogo en desarrollo de software de Medellín, Colombia. Responde siempre en primera persona, de forma amigable y profesional. Sé conciso (2-4 oraciones por respuesta).
 
 Perfil:
 - 10 años de experiencia como técnico de servicios farmacéuticos
 - Recién graduado como tecnólogo en desarrollo de software
 - Stack: Java, Spring Boot, MySQL, Flutter, Dart, Git, GitHub
 - Buscando tu primer trabajo en tech, con ventaja única en healthtech/farmatech
-- Ubicación: Sabaneta, Colombia
+- Ubicación: Medellín, Colombia
 
 Proyectos:
 1. Sistema de Inventario Farmacéutico - app web con Java/Spring Boot/MySQL para gestión de medicamentos, alertas de vencimiento y control de stock. Inspirado en tu experiencia real en farmacias.
-2. Alzalert - app móvil en Flutter/Dart para monitoreo de pacientes con Alzheimer. Envía alertas de ubicación y recordatorios de rutinas a cuidadores, integrado con hardware de monitoreo.
-3. Episense - app móvil en Flutter/Dart para epilepsia. Registra eventos de crisis y envía notificaciones de emergencia a contactos designados, integrado con hardware de monitoreo.
+2. Alzalert - app móvil en Flutter/Dart para monitoreo de pacientes con Alzheimer. Envía alertas de ubicación y recordatorios de rutinas a cuidadores.
+3. Episense - app móvil en Flutter/Dart para epilepsia. Registra eventos de crisis y envía notificaciones de emergencia a contactos designados.
 
-Experiencia previa: SURA Ayudas Diagnósticas, M&M Diagnostics, Comedica S.A. Manejo de cadena de frío, normativa INVIMA, trazabilidad de medicamentos, SAP Business One, SAP Logon,Excel intermedio (macros), ingles B1.
+Experiencia previa: SURA Ayudas Diagnósticas, M&M Diagnostics, Comedica S.A. Manejo de cadena de frío, normativa INVIMA, trazabilidad de medicamentos, SAP Business One, SAP Logon.
 
 Si te preguntan en español, responde en español. Si en inglés, en inglés. Si preguntan algo que no sabes, di que prefieren contactarte directamente.`;
+
 
 const projects = [
   {
@@ -27,7 +28,7 @@ const projects = [
     stack: ["Java", "Spring Boot", "MySQL", "REST API"],
     accent: "#2dd4bf",
     icon: "💊",
-    github: "https://github.com/JDHiguitaaa",
+    github: "https://github.com/JDHiguitaaa/prestamo.git",
     gallery: [
       { img: "https://placehold.co/800x500/0d1117/2dd4bf?text=Dashboard+Principal", caption: "Dashboard principal con resumen de stock, alertas de vencimiento y métricas clave del inventario." },
       { img: "https://placehold.co/800x500/0d1117/2dd4bf?text=Lista+de+Medicamentos", caption: "Listado completo de medicamentos con filtros por categoría, laboratorio y fecha de vencimiento." },
@@ -59,9 +60,9 @@ const projects = [
     icon: "⚡",
     github: "https://github.com/helmerhernandez1226/episense.git",
     gallery: [
-      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Pantalla+Principal", caption: "Pantalla principal con registro de eventos epilépticos y acceso rápido a funciones de emergencia." },
-      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Registro+de+Evento", caption: "Formulario para registrar eventos epilépticos con detalles del incidente y estado del paciente." },
-      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Notificacion+Emergencia", caption: "Sistema de notificaciones automáticas que alertan a contactos designados en caso de emergencia." },
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Registro+de+Evento", caption: "Pantalla de registro de evento epiléptico con campos de duración, tipo e intensidad." },
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Historial+Clinico", caption: "Historial clínico con gráficas de frecuencia de episodios por semana y mes." },
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Contactos+Emergencia", caption: "Módulo de contactos de emergencia con envío automático de SMS y ubicación GPS." },
     ],
   },
 ];
@@ -168,7 +169,7 @@ function GalleryModal({ project, onClose }) {
           )}
         </div>
 
-        {/* Caption */}
+
         <div style={{ padding: "16px 24px", borderTop: "1px solid #1d1d2e" }}>
           <p style={{ fontSize: 13, color: "#8a8a9a", lineHeight: 1.6, margin: 0 }}>{img.caption}</p>
         </div>
@@ -203,7 +204,7 @@ export default function Portfolio() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "¡Hola! Soy Juan David. Combino 10 años en el sector farmacéutico con desarrollo de software en Java y Flutter, autoaprendizaje constante. ¿Qué quieres saber sobre mi experiencia o proyectos?",
+      content: "¡Hola! Soy Juan David. Combino 10 años en el sector farmacéutico con desarrollo de software en Java y Flutter, aprendiendo constantemente nuevas tecnologías. ¿Qué quieres saber sobre mi experiencia o proyectos?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -214,26 +215,20 @@ export default function Portfolio() {
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const headline = "Software Developer for HealthTech";
+  const headline = "Desarrollador de Software";
   const userCount = messages.filter(m => m.role === "user").length;
 
   useEffect(() => {
     let i = 0;
     const interval = setInterval(() => {
-      if (i <= headline.length) {
-        setTyped(headline.slice(0, i));
-        i++;
-      } else {
-        clearInterval(interval);
-      }
+      if (i <= headline.length) { setTyped(headline.slice(0, i)); i++; }
+      else clearInterval(interval);
     }, 60);
     return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    if (messages.length > 1) {
-      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    if (messages.length > 1) chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const sendMessage = async () => {
@@ -250,7 +245,7 @@ export default function Portfolio() {
         body: JSON.stringify({ messages: next, system: SYSTEM_PROMPT }),
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || data.error || "Claude temporalmente no disponible";
+      const reply = data.content?.[0]?.text || data.error || "Error al conectar.";
       const botMsg = { role: "assistant", content: reply };
       const newUserCount = next.filter(m => m.role === "user").length;
       if (newUserCount >= 3) {
@@ -268,109 +263,34 @@ export default function Portfolio() {
   };
 
   const S = {
-    root: {
-      background: "#080810",
-      color: "#e8e8e0",
-      minHeight: "100vh",
-      fontFamily: "'JetBrains Mono', 'Courier New', monospace",
-      lineHeight: 1.6,
-    },
-    nav: {
-      position: "sticky",
-      top: 0,
-      background: "rgba(8,8,16,0.9)",
-      backdropFilter: "blur(12px)",
-      borderBottom: "1px solid #1a1a28",
-      padding: "14px 40px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      zIndex: 100,
-    },
+    root: { background: "#080810", color: "#e8e8e0", minHeight: "100vh", fontFamily: "'JetBrains Mono', 'Courier New', monospace", lineHeight: 1.6 },
+    nav: { position: "sticky", top: 0, background: "rgba(8,8,16,0.9)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a28", padding: "14px 40px", display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 100 },
     logo: { fontSize: 15, fontWeight: 500, color: "#2dd4bf", letterSpacing: "0.08em" },
     navLinks: { display: "flex", gap: 32, fontSize: 13, color: "#7a7a8a" },
     hero: { padding: "100px 40px 80px", maxWidth: 900, margin: "0 auto" },
-    badge: {
-      display: "inline-block",
-      background: "rgba(45,212,191,0.08)",
-      border: "1px solid rgba(45,212,191,0.2)",
-      color: "#2dd4bf",
-      fontSize: 12,
-      padding: "4px 14px",
-      borderRadius: 20,
-      marginBottom: 28,
-      letterSpacing: "0.1em",
-    },
-    h1: {
-      fontSize: "clamp(38px, 6vw, 72px)",
-      fontWeight: 300,
-      lineHeight: 1.1,
-      margin: "0 0 8px",
-      fontFamily: "Georgia, 'Times New Roman', serif",
-      letterSpacing: "-0.02em",
-      color: "#f0f0ec",
-    },
+    badge: { display: "inline-block", background: "rgba(45,212,191,0.08)", border: "1px solid rgba(45,212,191,0.2)", color: "#2dd4bf", fontSize: 12, padding: "4px 14px", borderRadius: 20, marginBottom: 28, letterSpacing: "0.1em" },
+    h1: { fontSize: "clamp(38px, 6vw, 72px)", fontWeight: 300, lineHeight: 1.1, margin: "0 0 8px", fontFamily: "Georgia, 'Times New Roman', serif", letterSpacing: "-0.02em", color: "#f0f0ec" },
     h1span: { color: "#2dd4bf" },
     subtitle: { fontSize: 22, color: "#9a9ab0", marginBottom: 24, fontWeight: 300 },
-    cursor: {
-      display: "inline-block", width: 2, height: "1em",
-      background: "#2dd4bf", verticalAlign: "text-bottom",
-      animation: "blink 1s step-end infinite",
-    },
+    cursor: { display: "inline-block", width: 2, height: "1em", background: "#2dd4bf", verticalAlign: "text-bottom", animation: "blink 1s step-end infinite" },
     heroDesc: { fontSize: 15, color: "#6b6b80", maxWidth: 520, marginBottom: 40, lineHeight: 1.7 },
-    btnPrimary: {
-      background: "#2dd4bf", color: "#080810", border: "none",
-      padding: "12px 28px", fontSize: 13, fontWeight: 600, borderRadius: 6,
-      cursor: "pointer", marginRight: 14, fontFamily: "inherit", letterSpacing: "0.05em",
-    },
-    btnSecondary: {
-      background: "transparent", color: "#2dd4bf", border: "1px solid #2dd4bf",
-      padding: "12px 28px", fontSize: 13, fontWeight: 500, borderRadius: 6,
-      cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.05em",
-    },
+    btnPrimary: { background: "#2dd4bf", color: "#080810", border: "none", padding: "12px 28px", fontSize: 13, fontWeight: 600, borderRadius: 6, cursor: "pointer", marginRight: 14, fontFamily: "inherit", letterSpacing: "0.05em" },
+    btnSecondary: { background: "transparent", color: "#2dd4bf", border: "1px solid #2dd4bf", padding: "12px 28px", fontSize: 13, fontWeight: 500, borderRadius: 6, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.05em" },
     section: { padding: "60px 40px", maxWidth: 900, margin: "0 auto" },
     sectionLabel: { fontSize: 11, letterSpacing: "0.2em", color: "#2dd4bf", textTransform: "uppercase", marginBottom: 8 },
-    sectionTitle: {
-      fontSize: 30, fontWeight: 300, fontFamily: "Georgia, 'Times New Roman', serif",
-      color: "#f0f0ec", marginBottom: 40, letterSpacing: "-0.02em",
-    },
+    sectionTitle: { fontSize: 30, fontWeight: 300, fontFamily: "Georgia, 'Times New Roman', serif", color: "#f0f0ec", marginBottom: 40, letterSpacing: "-0.02em" },
     divider: { width: 48, height: 1, background: "#2dd4bf", margin: "16px 0 36px" },
     projectGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 20 },
     skillGrid: { display: "flex", flexWrap: "wrap", gap: 10 },
     chatBox: { background: "#0c0c18", border: "1px solid #1d1d2e", borderRadius: 12, overflow: "hidden" },
-    chatHeader: {
-      background: "#111120", padding: "14px 20px", borderBottom: "1px solid #1d1d2e",
-      display: "flex", alignItems: "center", gap: 10,
-    },
+    chatHeader: { background: "#111120", padding: "14px 20px", borderBottom: "1px solid #1d1d2e", display: "flex", alignItems: "center", gap: 10 },
     dot: (c) => ({ width: 10, height: 10, borderRadius: "50%", background: c }),
-    chatMessages: {
-      padding: 20, minHeight: 260, maxHeight: 360, overflowY: "auto",
-      display: "flex", flexDirection: "column", gap: 14,
-    },
-    msgUser: {
-      alignSelf: "flex-end", background: "rgba(45,212,191,0.1)",
-      border: "1px solid rgba(45,212,191,0.2)", color: "#e8e8e0",
-      padding: "10px 16px", borderRadius: "14px 14px 2px 14px", maxWidth: "75%", fontSize: 14,
-    },
-    msgBot: {
-      alignSelf: "flex-start", background: "#13131f", border: "1px solid #1d1d2e",
-      color: "#c8c8c0", padding: "10px 16px", borderRadius: "14px 14px 14px 2px",
-      maxWidth: "80%", fontSize: 14, whiteSpace: "pre-line",
-    },
-    chatInput: {
-      display: "flex", padding: "14px 20px", gap: 10,
-      borderTop: "1px solid #1d1d2e", background: "#0c0c18",
-    },
-    inputField: {
-      flex: 1, background: "#13131f", border: "1px solid #1d1d2e",
-      color: "#e8e8e0", padding: "10px 16px", borderRadius: 8,
-      fontSize: 14, fontFamily: "inherit", outline: "none",
-    },
-    sendBtn: {
-      background: "#2dd4bf", color: "#080810", border: "none",
-      padding: "10px 20px", borderRadius: 8, fontSize: 13,
-      fontWeight: 600, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap",
-    },
+    chatMessages: { padding: 20, minHeight: 260, maxHeight: 360, overflowY: "auto", display: "flex", flexDirection: "column", gap: 14 },
+    msgUser: { alignSelf: "flex-end", background: "rgba(45,212,191,0.1)", border: "1px solid rgba(45,212,191,0.2)", color: "#e8e8e0", padding: "10px 16px", borderRadius: "14px 14px 2px 14px", maxWidth: "75%", fontSize: 14 },
+    msgBot: { alignSelf: "flex-start", background: "#13131f", border: "1px solid #1d1d2e", color: "#c8c8c0", padding: "10px 16px", borderRadius: "14px 14px 14px 2px", maxWidth: "80%", fontSize: 14, whiteSpace: "pre-line" },
+    chatInput: { display: "flex", padding: "14px 20px", gap: 10, borderTop: "1px solid #1d1d2e", background: "#0c0c18" },
+    inputField: { flex: 1, background: "#13131f", border: "1px solid #1d1d2e", color: "#e8e8e0", padding: "10px 16px", borderRadius: 8, fontSize: 14, fontFamily: "inherit", outline: "none" },
+    sendBtn: { background: "#2dd4bf", color: "#080810", border: "none", padding: "10px 20px", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" },
     footer: { borderTop: "1px solid #1a1a28", padding: "30px 40px", textAlign: "center", color: "#3a3a50", fontSize: 12 },
   };
 
@@ -386,6 +306,9 @@ export default function Portfolio() {
         a { text-decoration: none; }
       `}</style>
 
+      {/* Modal galería */}
+      {gallery && <GalleryModal project={gallery} onClose={() => setGallery(null)} />}
+
       <nav style={S.nav}>
         <span style={S.logo}>JDH.dev</span>
         <div style={S.navLinks}>
@@ -398,22 +321,15 @@ export default function Portfolio() {
 
       <section style={S.hero}>
         <span style={S.badge}>🇨🇴 disponible · Medellín</span>
-        <h1 style={S.h1}>
-          Juan David<br />
-          <span style={S.h1span}>Higuita</span>
-        </h1>
+        <h1 style={S.h1}>Juan David<br /><span style={S.h1span}>Higuita</span></h1>
         <p style={S.subtitle}>{typed}<span style={S.cursor} /></p>
         <p style={S.heroDesc}>
           10 años en el sector farmacéutico. Tecnólogo en desarrollo de software.
           Construyo apps que resuelven problemas reales en salud — con Java, Spring Boot y Flutter.
         </p>
         <div>
-          <button style={S.btnPrimary} onClick={() => document.getElementById("chat").scrollIntoView({ behavior: "smooth" })}>
-            Hablar conmigo ↓
-          </button>
-          <button style={S.btnSecondary} onClick={() => document.getElementById("proyectos").scrollIntoView({ behavior: "smooth" })}>
-            Ver proyectos
-          </button>
+          <button style={S.btnPrimary} onClick={() => document.getElementById("chat").scrollIntoView({ behavior: "smooth" })}>Hablar conmigo ↓</button>
+          <button style={S.btnSecondary} onClick={() => document.getElementById("proyectos").scrollIntoView({ behavior: "smooth" })}>Ver proyectos</button>
         </div>
         <div style={{ display: "flex", gap: 40, marginTop: 60, paddingTop: 40, borderTop: "1px solid #1a1a28" }}>
           {[["10+", "años en farma"], ["3", "proyectos GitHub"], ["Java·Flutter", "stack principal"]].map(([n, l]) => (
@@ -434,33 +350,29 @@ export default function Portfolio() {
             <div key={p.id}
               onMouseEnter={() => setHovered(p.id)}
               onMouseLeave={() => setHovered(null)}
-              style={{
-                background: hovered === p.id ? "#10101c" : "#0d0d18",
-                border: `1px solid ${hovered === p.id ? p.accent + "55" : "#1d1d2e"}`,
-                borderRadius: 12, padding: "24px 22px", transition: "all 0.2s", cursor: "default",
-              }}
+              style={{ background: hovered === p.id ? "#10101c" : "#0d0d18", border: `1px solid ${hovered === p.id ? p.accent + "55" : "#1d1d2e"}`, borderRadius: 12, padding: "24px 22px", transition: "all 0.2s" }}
             >
               <div style={{ fontSize: 28, marginBottom: 12 }}>{p.icon}</div>
-              <div style={{ fontSize: 11, letterSpacing: "0.15em", color: p.accent, marginBottom: 6 }}>
-                {p.tagline.toUpperCase()}
-              </div>
-              <h3 style={{ fontSize: 18, fontWeight: 500, color: "#f0f0ec", marginBottom: 10, fontFamily: "Georgia, serif" }}>
-                {p.name}
-              </h3>
+              <div style={{ fontSize: 11, letterSpacing: "0.15em", color: p.accent, marginBottom: 6 }}>{p.tagline.toUpperCase()}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 500, color: "#f0f0ec", marginBottom: 10, fontFamily: "Georgia, serif" }}>{p.name}</h3>
               <p style={{ fontSize: 13, color: "#6b6b80", lineHeight: 1.65, marginBottom: 16 }}>{p.desc}</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
                 {p.stack.map((t) => (
-                  <span key={t} style={{
-                    fontSize: 11, background: p.accent + "12",
-                    border: `1px solid ${p.accent}30`, color: p.accent,
-                    padding: "3px 10px", borderRadius: 4,
-                  }}>{t}</span>
+                  <span key={t} style={{ fontSize: 11, background: p.accent + "12", border: `1px solid ${p.accent}30`, color: p.accent, padding: "3px 10px", borderRadius: 4 }}>{t}</span>
                 ))}
               </div>
-              <a href={p.github} target="_blank" rel="noreferrer"
-                style={{ fontSize: 12, color: p.accent, letterSpacing: "0.05em" }}>
-                GitHub →
-              </a>
+              {/* Botones GitHub + Ver demo */}
+              <div style={{ display: "flex", gap: 10 }}>
+                <a href={p.github} target="_blank" rel="noreferrer"
+                  style={{ fontSize: 12, color: p.accent, letterSpacing: "0.05em", border: `1px solid ${p.accent}40`, padding: "5px 12px", borderRadius: 6 }}>
+                  GitHub →
+                </a>
+                <button
+                  onClick={() => setGallery(p)}
+                  style={{ fontSize: 12, color: "#080810", background: p.accent, border: "none", padding: "5px 12px", borderRadius: 6, cursor: "pointer", fontFamily: "inherit", fontWeight: 600, letterSpacing: "0.05em" }}>
+                  📸 Ver app
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -473,25 +385,13 @@ export default function Portfolio() {
         <div style={S.skillGrid}>
           {skills.map((s) => {
             const c = catColor[s.category];
-            return (
-              <span key={s.name} style={{
-                background: c.bg, border: `1px solid ${c.border}`, color: c.text,
-                padding: "8px 18px", borderRadius: 6, fontSize: 13, fontWeight: 500, letterSpacing: "0.03em",
-              }}>{s.name}</span>
-            );
+            return <span key={s.name} style={{ background: c.bg, border: `1px solid ${c.border}`, color: c.text, padding: "8px 18px", borderRadius: 6, fontSize: 13, fontWeight: 500, letterSpacing: "0.03em" }}>{s.name}</span>;
           })}
         </div>
-        <div style={{
-          marginTop: 48, background: "#0d0d18", border: "1px solid #1d1d2e",
-          borderRadius: 12, padding: "28px 32px", display: "grid",
-          gridTemplateColumns: "1fr 1fr", gap: 32,
-        }}>
+        <div style={{ marginTop: 48, background: "#0d0d18", border: "1px solid #1d1d2e", borderRadius: 12, padding: "28px 32px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
           <div>
             <div style={{ fontSize: 11, letterSpacing: "0.15em", color: "#2dd4bf", marginBottom: 10 }}>VENTAJA DIFERENCIAL</div>
-            <p style={{ fontSize: 14, color: "#8a8a9a", lineHeight: 1.7 }}>
-              10 años en farmacias hospitalarias me dieron contexto que la mayoría de devs no tiene.
-              Entiendo INVIMA, cadena de frío y SAP Business One — y ahora los puedo sistematizar en código.
-            </p>
+            <p style={{ fontSize: 14, color: "#8a8a9a", lineHeight: 1.7 }}>10 años en farmacias hospitalarias me dieron contexto que la mayoría de devs no tiene. Entiendo INVIMA, cadena de frío y SAP Business One — y ahora los puedo sistematizar en código.</p>
           </div>
           <div>
             <div style={{ fontSize: 11, letterSpacing: "0.15em", color: "#a78bfa", marginBottom: 10 }}>BUSCANDO ROLES EN</div>
@@ -510,10 +410,7 @@ export default function Portfolio() {
         <p style={S.sectionLabel}>IA · chat en vivo</p>
         <h2 style={S.sectionTitle}>Habla con Juan David</h2>
         <div style={S.divider} />
-        <p style={{ fontSize: 13, color: "#5a5a6a", marginBottom: 24 }}>
-          Powered by Claude · responde sobre mi experiencia, proyectos y disponibilidad
-        </p>
-
+        <p style={{ fontSize: 13, color: "#5a5a6a", marginBottom: 24 }}>Powered by Claude · responde sobre mi experiencia, proyectos y disponibilidad</p>
         <div style={S.chatBox}>
           <div style={S.chatHeader}>
             <div style={S.dot("#ff5f57")} />
@@ -522,16 +419,13 @@ export default function Portfolio() {
             <span style={{ fontSize: 12, color: "#5a5a6a", marginLeft: 8 }}>juan-david-higuita · online</span>
             {userCount > 0 && (
               <span style={{ marginLeft: "auto", fontSize: 11, color: "#3a3a50" }}>
-                {4 - userCount > 0 ? `${3 - userCount} preguntas restantes` : "límite alcanzado"}
+                {3 - userCount > 0 ? `${3 - userCount} preguntas restantes` : "límite alcanzado"}
               </span>
             )}
           </div>
-
           <div style={S.chatMessages}>
             {messages.map((m, i) => (
-              <div key={i} style={m.role === "user" ? S.msgUser : S.msgBot}>
-                {m.content}
-              </div>
+              <div key={i} style={m.role === "user" ? S.msgUser : S.msgBot}>{m.content}</div>
             ))}
             {loading && (
               <div style={{ ...S.msgBot, color: "#3a3a50" }}>
@@ -540,48 +434,28 @@ export default function Portfolio() {
             )}
             <div ref={chatEndRef} />
           </div>
-
           {userCount >= 3 ? (
             <div style={{ padding: "20px", textAlign: "center", borderTop: "1px solid #1d1d2e" }}>
-              <a
-                href="https://wa.me/573146919190"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "inline-block", background: "#25D366", color: "#fff",
-                  padding: "12px 28px", borderRadius: 8, fontSize: 14,
-                  fontWeight: 600, fontFamily: "inherit",
-                }}
-              >
+              <a href="https://wa.me/573146919190" target="_blank" rel="noreferrer"
+                style={{ display: "inline-block", background: "#25D366", color: "#fff", padding: "12px 28px", borderRadius: 8, fontSize: 14, fontWeight: 600, fontFamily: "inherit" }}>
                 💬 Escribirme por WhatsApp
               </a>
             </div>
           ) : (
             <div style={S.chatInput}>
-              <input
-                ref={inputRef}
-                style={S.inputField}
-                value={input}
+              <input ref={inputRef} style={S.inputField} value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                placeholder="¿Qué experiencia tienes con Spring Boot? / What's your availability?"
-              />
-              <button style={S.sendBtn} onClick={sendMessage} disabled={loading}>
-                Enviar →
-              </button>
+                placeholder="¿Qué experiencia tienes con Spring Boot? / What's your availability?" />
+              <button style={S.sendBtn} onClick={sendMessage} disabled={loading}>Enviar →</button>
             </div>
           )}
         </div>
-
         {userCount < 3 && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16 }}>
             {["¿Cuándo puedes empezar?", "Cuéntame sobre Alzalert", "¿Por qué pasaste a desarrollo?", "What's your English level?"].map((q) => (
-              <button key={q}
-                onClick={() => { setInput(q); inputRef.current?.focus(); }}
-                style={{
-                  background: "transparent", border: "1px solid #1d1d2e", color: "#5a5a6a",
-                  padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer", fontFamily: "inherit",
-                }}>
+              <button key={q} onClick={() => { setInput(q); inputRef.current?.focus(); }}
+                style={{ background: "transparent", border: "1px solid #1d1d2e", color: "#5a5a6a", padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer", fontFamily: "inherit" }}>
                 {q}
               </button>
             ))}
