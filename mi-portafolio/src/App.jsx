@@ -1,20 +1,20 @@
 import { useState, useEffect, useRef } from "react";
 
-const SYSTEM_PROMPT = `Eres Juan David Higuita, un tecnólogo en desarrollo de software de Medellín, Colombia. Responde siempre en primera persona, de forma amigable y profesional. Sé conciso (2-4 oraciones por respuesta).
+const SYSTEM_PROMPT = `Eres Juan David Higuita, un tecnólogo en desarrollo de software de Sabaneta, Colombia. Responde siempre en primera persona, de forma amigable y profesional. Sé conciso (2-4 oraciones por respuesta).
 
 Perfil:
 - 10 años de experiencia como técnico de servicios farmacéuticos
 - Recién graduado como tecnólogo en desarrollo de software
 - Stack: Java, Spring Boot, MySQL, Flutter, Dart, Git, GitHub
 - Buscando tu primer trabajo en tech, con ventaja única en healthtech/farmatech
-- Ubicación: Medellín, Colombia
+- Ubicación: Sabaneta, Colombia
 
 Proyectos:
 1. Sistema de Inventario Farmacéutico - app web con Java/Spring Boot/MySQL para gestión de medicamentos, alertas de vencimiento y control de stock. Inspirado en tu experiencia real en farmacias.
-2. Alzalert - app móvil en Flutter/Dart para monitoreo de pacientes con Alzheimer. Envía alertas de ubicación y recordatorios de rutinas a cuidadores.
-3. Episense - app móvil en Flutter/Dart para epilepsia. Registra eventos de crisis y envía notificaciones de emergencia a contactos designados.
+2. Alzalert - app móvil en Flutter/Dart para monitoreo de pacientes con Alzheimer. Envía alertas de ubicación y recordatorios de rutinas a cuidadores, integrado con hardware de monitoreo.
+3. Episense - app móvil en Flutter/Dart para epilepsia. Registra eventos de crisis y envía notificaciones de emergencia a contactos designados, integrado con hardware de monitoreo.
 
-Experiencia previa: SURA Ayudas Diagnósticas, M&M Diagnostics, Comedica S.A. Manejo de cadena de frío, normativa INVIMA, trazabilidad de medicamentos, SAP Business One.
+Experiencia previa: SURA Ayudas Diagnósticas, M&M Diagnostics, Comedica S.A. Manejo de cadena de frío, normativa INVIMA, trazabilidad de medicamentos, SAP Business One, SAP Logon,Excel intermedio (macros), ingles B1.
 
 Si te preguntan en español, responde en español. Si en inglés, en inglés. Si preguntan algo que no sabes, di que prefieren contactarte directamente.`;
 
@@ -37,7 +37,7 @@ const projects = [
     stack: ["Flutter", "Dart", "Firebase"],
     accent: "#a78bfa",
     icon: "🧠",
-    github: "https://github.com/JDHiguitaaa",
+    github: "https://github.com/equipoAlzDev/appAlzAlert.git",
   },
   {
     id: 3,
@@ -47,7 +47,7 @@ const projects = [
     stack: ["Flutter", "Dart", "Notifications API"],
     accent: "#f59e0b",
     icon: "⚡",
-    github: "https://github.com/JDHiguitaaa",
+    github: "https://github.com/helmerhernandez1226/episense.git",
   },
 ];
 
@@ -72,7 +72,7 @@ export default function Portfolio() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "¡Hola! Soy Juan David. Combino 10 años en el sector farmacéutico con desarrollo de software en Java y Flutter. ¿Qué quieres saber sobre mi experiencia o proyectos?",
+      content: "¡Hola! Soy Juan David. Combino 10 años en el sector farmacéutico con desarrollo de software en Java y Flutter, autoaprendizaje constante. ¿Qué quieres saber sobre mi experiencia o proyectos?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -82,7 +82,7 @@ export default function Portfolio() {
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  const headline = "Desarrollador de Software";
+  const headline = "Software Developer for HealthTech";
   const userCount = messages.filter(m => m.role === "user").length;
 
   useEffect(() => {
@@ -99,7 +99,9 @@ export default function Portfolio() {
   }, []);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 1) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const sendMessage = async () => {
@@ -116,7 +118,7 @@ export default function Portfolio() {
         body: JSON.stringify({ messages: next, system: SYSTEM_PROMPT }),
       });
       const data = await res.json();
-      const reply = data.content?.[0]?.text || data.error || "Error al conectar.";
+      const reply = data.content?.[0]?.text || data.error || "Claude temporalmente no disponible";
       const botMsg = { role: "assistant", content: reply };
       const newUserCount = next.filter(m => m.role === "user").length;
       if (newUserCount >= 3) {
