@@ -28,6 +28,11 @@ const projects = [
     accent: "#2dd4bf",
     icon: "💊",
     github: "https://github.com/JDHiguitaaa",
+    gallery: [
+      { img: "https://placehold.co/800x500/0d1117/2dd4bf?text=Dashboard+Principal", caption: "Dashboard principal con resumen de stock, alertas de vencimiento y métricas clave del inventario." },
+      { img: "https://placehold.co/800x500/0d1117/2dd4bf?text=Lista+de+Medicamentos", caption: "Listado completo de medicamentos con filtros por categoría, laboratorio y fecha de vencimiento." },
+      { img: "https://placehold.co/800x500/0d1117/2dd4bf?text=Alertas+de+Vencimiento", caption: "Módulo de alertas automáticas para medicamentos próximos a vencer con nivel de prioridad." },
+    ],
   },
   {
     id: 2,
@@ -38,6 +43,11 @@ const projects = [
     accent: "#a78bfa",
     icon: "🧠",
     github: "https://github.com/equipoAlzDev/appAlzAlert.git",
+    gallery: [
+      { img: "https://placehold.co/400x700/0d1117/a78bfa?text=Pantalla+Principal", caption: "Pantalla principal de la app con estado del paciente y acceso rápido a funciones de monitoreo." },
+      { img: "https://placehold.co/400x700/0d1117/a78bfa?text=Mapa+de+Ubicacion", caption: "Mapa en tiempo real con la ubicación del paciente y zona de seguridad configurada por el cuidador." },
+      { img: "https://placehold.co/400x700/0d1117/a78bfa?text=Alertas+Push", caption: "Sistema de notificaciones push que alerta al cuidador cuando el paciente sale de la zona segura." },
+    ],
   },
   {
     id: 3,
@@ -48,6 +58,11 @@ const projects = [
     accent: "#f59e0b",
     icon: "⚡",
     github: "https://github.com/helmerhernandez1226/episense.git",
+    gallery: [
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Pantalla+Principal", caption: "Pantalla principal con registro de eventos epilépticos y acceso rápido a funciones de emergencia." },
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Registro+de+Evento", caption: "Formulario para registrar eventos epilépticos con detalles del incidente y estado del paciente." },
+      { img: "https://placehold.co/400x700/0d1117/f59e0b?text=Notificacion+Emergencia", caption: "Sistema de notificaciones automáticas que alertan a contactos designados en caso de emergencia." },
+    ],
   },
 ];
 
@@ -68,6 +83,122 @@ const catColor = {
   tools: { bg: "#2a1a00", text: "#f59e0b", border: "#3d2600" },
 };
 
+function GalleryModal({ project, onClose }) {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") setCurrent(c => (c + 1) % project.gallery.length);
+      if (e.key === "ArrowLeft") setCurrent(c => (c - 1 + project.gallery.length) % project.gallery.length);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [project, onClose]);
+
+  const img = project.gallery[current];
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)",
+        zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center",
+        padding: 20,
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: "#0d0d18", border: `1px solid ${project.accent}33`,
+          borderRadius: 16, maxWidth: 860, width: "100%",
+          overflow: "hidden", position: "relative",
+        }}
+      >
+        {/* Header */}
+        <div style={{
+          padding: "16px 24px", borderBottom: "1px solid #1d1d2e",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 20 }}>{project.icon}</span>
+            <span style={{ fontSize: 14, color: "#f0f0ec", fontFamily: "inherit" }}>{project.name}</span>
+            <span style={{
+              fontSize: 11, color: project.accent,
+              background: project.accent + "15", border: `1px solid ${project.accent}30`,
+              padding: "2px 10px", borderRadius: 20,
+            }}>
+              {current + 1} / {project.gallery.length}
+            </span>
+          </div>
+          <button onClick={onClose} style={{
+            background: "transparent", border: "1px solid #2a2a3a", color: "#6b6b80",
+            width: 32, height: 32, borderRadius: 8, cursor: "pointer",
+            fontSize: 16, fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center",
+          }}>✕</button>
+        </div>
+
+        {/* Imagen */}
+        <div style={{ position: "relative", background: "#080810" }}>
+          <img
+            src={img.img}
+            alt={img.caption}
+            style={{ width: "100%", maxHeight: 460, objectFit: "contain", display: "block" }}
+          />
+          {/* Flechas */}
+          {project.gallery.length > 1 && (
+            <>
+              <button
+                onClick={() => setCurrent(c => (c - 1 + project.gallery.length) % project.gallery.length)}
+                style={{
+                  position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+                  background: "rgba(0,0,0,0.7)", border: `1px solid ${project.accent}40`,
+                  color: project.accent, width: 40, height: 40, borderRadius: 8,
+                  cursor: "pointer", fontSize: 18, fontFamily: "inherit",
+                }}>‹</button>
+              <button
+                onClick={() => setCurrent(c => (c + 1) % project.gallery.length)}
+                style={{
+                  position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+                  background: "rgba(0,0,0,0.7)", border: `1px solid ${project.accent}40`,
+                  color: project.accent, width: 40, height: 40, borderRadius: 8,
+                  cursor: "pointer", fontSize: 18, fontFamily: "inherit",
+                }}>›</button>
+            </>
+          )}
+        </div>
+
+        {/* Caption */}
+        <div style={{ padding: "16px 24px", borderTop: "1px solid #1d1d2e" }}>
+          <p style={{ fontSize: 13, color: "#8a8a9a", lineHeight: 1.6, margin: 0 }}>{img.caption}</p>
+        </div>
+
+        {/* Miniaturas */}
+        {project.gallery.length > 1 && (
+          <div style={{
+            display: "flex", gap: 8, padding: "0 24px 16px",
+            overflowX: "auto",
+          }}>
+            {project.gallery.map((g, i) => (
+              <img
+                key={i}
+                src={g.img}
+                alt={`miniatura ${i + 1}`}
+                onClick={() => setCurrent(i)}
+                style={{
+                  width: 80, height: 52, objectFit: "cover", borderRadius: 6, cursor: "pointer",
+                  border: `2px solid ${i === current ? project.accent : "#1d1d2e"}`,
+                  opacity: i === current ? 1 : 0.5, transition: "all 0.15s", flexShrink: 0,
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [messages, setMessages] = useState([
     {
@@ -79,6 +210,7 @@ export default function Portfolio() {
   const [loading, setLoading] = useState(false);
   const [typed, setTyped] = useState("");
   const [hovered, setHovered] = useState(null);
+  const [gallery, setGallery] = useState(null);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
 
